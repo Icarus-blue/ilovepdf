@@ -17,33 +17,41 @@ class PDFCONVERTER
         $myTaskConvertOffice = $this->ilovepdf->newTask('officepdf');
         $myTaskConvertOffice->addFile($filepath);
         $myTaskConvertOffice->execute();
-        $myTaskConvertOffice->download('C:\Users\Administrator\Downloads');       
+        $myTaskConvertOffice->download('C:\Users\Administrator\Downloads');
     }
 
-    public function SplitPDF($filepath)
+    public function SplitPDF($filepath, $pagenumber, $fname)
     {
         $myTaskSplit = $this->ilovepdf->newTask('split');
         $file1 = $myTaskSplit->addFile($filepath);
-        $myTaskSplit->setOutputFilename('pdf1.pdf', 1);
-        $myTaskSplit->setOutputFilename('pdf2.pdf', 2);
-        $myTaskSplit->setOutputFilename('pdf3.pdf', 3);
-        $myTaskSplit->setRanges('1-1,2-2,3-4');
+        $rangestr = "";
+        $pagenumberarr =  explode(",", $pagenumber);
+        foreach ($pagenumberarr as  $key => $value) {
+            $filename = 'pdf' . $key . '.pdf';
+            $myTaskSplit->setOutputFilename($filename, $key);
+            $rangestr .= $value . '-' . $value . ',';
+        }
+        $rangestr = rtrim($rangestr, ',');
+        $myTaskSplit->setRanges($rangestr);
         $myTaskSplit->execute();
         $myTaskSplit->download('C:\Users\Administrator\Downloads');
-        $extractPath = 'spilit/';
-        $zip = new ZipArchive();
-        $zip->open('spilit/output.zip');
-        $zip->extractTo($extractPath);
-        $zip->close();
+        // $extractPath = 'spilit/';
+        // $zip = new ZipArchive();
+        // $zip->open('spilit/output.zip');
+        // $zip->extractTo($extractPath);
+        // $zip->close();
     }
 
-    public function MergePDF($filepath1, $filepath2, $filepath3)
+    public function MergePDF($filenamearr)
     {
         $myTaskMerge = $this->ilovepdf->newTask('merge');
-        $myTaskMerge->addFile($filepath1);
-        $myTaskMerge->addFile($filepath2);
-        $myTaskMerge->addFile($filepath3);
+        foreach ($filenamearr as $key => $value) {
+            $dir = 'C:/Users/Administrator/Downloads/';
+            $filename = $dir . $value;
+            $myTaskMerge->addFile($filename);
+        }
+
         $myTaskMerge->execute();
-        $myTaskMerge->download('merge_folder');
+        $myTaskMerge->download('C:\Users\Administrator\Downloads');
     }
 }
