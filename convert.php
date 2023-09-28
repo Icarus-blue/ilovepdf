@@ -17,7 +17,7 @@ class PDFCONVERTER
         $myTaskConvertOffice = $this->ilovepdf->newTask('officepdf');
         $myTaskConvertOffice->addFile($filepath);
         $myTaskConvertOffice->execute();
-        $myTaskConvertOffice->download('pdf_converted');
+        $myTaskConvertOffice->download('C:\Users\Administrator\Downloads');       
     }
 
     public function SplitPDF($filepath)
@@ -29,7 +29,7 @@ class PDFCONVERTER
         $myTaskSplit->setOutputFilename('pdf3.pdf', 3);
         $myTaskSplit->setRanges('1-1,2-2,3-4');
         $myTaskSplit->execute();
-        $myTaskSplit->download('spilit');
+        $myTaskSplit->download('C:\Users\Administrator\Downloads');
         $extractPath = 'spilit/';
         $zip = new ZipArchive();
         $zip->open('spilit/output.zip');

@@ -27,7 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     } else if ($_POST['flag'] == 1) {
         $pdfconverter->SplitPDF('pdf_converted/file_example_XLS_100.pdf');
-    } else {
+    } else if($_POST['flag'] == 2){
         $pdfconverter->MergePDF("spilit/pdf3-1-1.pdf","spilit/pdf3-2-2.pdf","spilit/pdf3-3-4.pdf" );
+    } else {
+        
     }
 }
